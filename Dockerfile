@@ -7,10 +7,10 @@ ARG CLOUDFLARED_VERSION=2022.5.0 \
 RUN apk add --no-cache git build-base && \
     go install golang.org/x/tools/gopls@latest && \
     git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /cloudflared && \
-    cd /cloudflared && make -j2 cloudflared
+    cd /cloudflared && \
+    make -j2 cloudflared
 
 FROM alpine
-RUN apk add --no-cache bash
 COPY --from=build /cloudflared/cloudflared /cloudflared
 
-ENTRYPOINT /bin/bash /cloudflared --no-autoupdate tunnel run --token ${token}
+ENTRYPOINT /cloudflared --no-autoupdate tunnel run --token ${token}
