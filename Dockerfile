@@ -1,15 +1,15 @@
 FROM golang:alpine as build
-ARG TARGETOS
-ARG TARGETARCH
-ARG GOOS=${TARGETOS}
-ARG GOARCH=${TARGETARCH}
-ARG CLOUDFLARED_VERSION=2022.5.0
-RUN apk add git build-base
-RUN go install golang.org/x/tools/gopls@latest
-RUN git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /build/cloudflared
-RUN cd /build/cloudflared && make -j2 cloudflared
+ENV CLOUDFLARED_VERSION=2022.5.0 \
+    TARGETOS \
+    TARGETARCH \
+    GOOS=${TARGETOS} \
+    GOARCH=${TARGETARCH}
+RUN apk add git build-base && \
+    go install golang.org/x/tools/gopls@latest && \
+    git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /cloudflared && \
+    cd /cloudflared && make -j2 cloudflared
 
 FROM alpine
-COPY --from=build /build/cloudflared/cloudflared /cloudflared
+COPY --from=build /cloudflared/cloudflared /cloudflared
 
 ENTRYPOINT /cloudflared --no-autoupdate tunnel run --token ${token}
