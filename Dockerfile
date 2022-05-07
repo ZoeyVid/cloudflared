@@ -10,6 +10,6 @@ RUN git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_V
 RUN cd /build/cloudflared && make -j2 cloudflared
 
 FROM alpine
-COPY --from=build /build/cloudflared/cloudflared /usr/local/bin/cloudflared
+COPY --from=build /build/cloudflared/cloudflared /cloudflared
 
-ENTRYPOINT cloudflared --no-autoupdate tunnel run --token ${token}
+ENTRYPOINT /cloudflared --no-autoupdate tunnel run --token ${token}
