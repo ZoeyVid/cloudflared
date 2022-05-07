@@ -19,5 +19,5 @@ jobs:
 
       - name: Push develop to latest
         run: |
-               docker manifest create ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+               docker manifest create ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
                docker manifest push ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
