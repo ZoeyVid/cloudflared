@@ -19,5 +19,6 @@ jobs:
 
       - name: Push develop to latest
         run: |
-               docker manifest create ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
-               docker manifest push ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+               curl -L https://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64 -o regctl
+               chmod +x regctl
+               regctl image copy ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
