@@ -11,6 +11,6 @@ RUN apk add --no-cache git build-base && \
     make -j2 cloudflared
 
 FROM alpine
-COPY --from=build /cloudflared/cloudflared /cloudflared
+COPY --from=build /cloudflared/cloudflared /usr/local/bin/cloudflared
 
-ENTRYPOINT /cloudflared --no-autoupdate tunnel run --token ${token}
+ENTRYPOINT cloudflared --no-autoupdate tunnel run --token ${token}
