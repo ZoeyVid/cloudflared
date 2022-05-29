@@ -8,7 +8,7 @@ RUN apk add --no-cache git build-base && \
     go install golang.org/x/tools/gopls@latest && \
     git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src/cloudflared && \
     cd /src/cloudflared && \
-    gmake -j "$(nproc)" cloudflared
+    make -j "$(nproc)" cloudflared
 
 FROM scratch
 COPY --from=build /src/cloudflared/cloudflared /usr/local/bin/cloudflared
