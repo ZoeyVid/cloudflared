@@ -15,4 +15,4 @@ RUN cd /src && \
 FROM alpine
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
-ENTRYPOINT ["cloudflared", "--no-autoupdate", "tunnel", "run", "--token", "${token}"]
+ENTRYPOINT cloudflared --no-autoupdate tunnel run --token ${token}
