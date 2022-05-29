@@ -1,4 +1,4 @@
-FROM golang:alpine as build
+FROM --platform=${BUILDPLATFORM} golang:alpine as build
 ARG CLOUDFLARED_VERSION=2022.5.1 \
     TARGETOS \
     TARGETARCH \
@@ -6,11 +6,12 @@ ARG CLOUDFLARED_VERSION=2022.5.1 \
     GOARCH=${TARGETARCH}
 RUN apk add --no-cache git build-base && \
     go install golang.org/x/tools/gopls@latest && \
-    git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /cloudflared && \
-    cd /cloudflared && \
+    git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src/cloudflared && \
+    cd /src/cloudflared && \
     gmake -j "$(nproc)" cloudflared
 
-FROM alpine
-COPY --from=build /cloudflared/cloudflared /usr/local/bin/cloudflared
+FROM scratch
+COPY --from=build /src/cloudflared/cloudflared /usr/local/bin/cloudflared
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-ENTRYPOINT cloudflared --no-autoupdate tunnel run --token ${token}
+ENTRYPOINT /usr/local/bin/cloudflared --no-autoupdate tunnel run --token ${token}
