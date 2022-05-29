@@ -8,7 +8,7 @@ RUN apk add --no-cache git build-base && \
     go install golang.org/x/tools/gopls@latest && \
     git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /cloudflared && \
     cd /cloudflared && \
-    make -j2 cloudflared
+    gmake -j "$(nproc)" cloudflared
 
 FROM alpine
 COPY --from=build /cloudflared/cloudflared /usr/local/bin/cloudflared
