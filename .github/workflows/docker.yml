@@ -22,9 +22,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          key: buildx-${{ github.sha }}
+          restore-keys: buildx
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
