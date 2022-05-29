@@ -12,8 +12,7 @@ RUN git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_V
 RUN cd /src && \
     make -j "$(nproc)" cloudflared
 
-FROM scratch
+FROM alpine
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 ENTRYPOINT ["cloudflared", "--no-autoupdate", "tunnel", "run", "--token", "${token}"]
