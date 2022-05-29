@@ -14,7 +14,7 @@ RUN git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_V
 
 FROM --platform=linux/amd64 scratch
 
-COPY --from=build /src/cloudflared/cloudflared /usr/local/bin/cloudflared
+COPY --from=build /src/cloudflared/cloudflared /cloudflared
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-CMD ["/usr/local/bin/cloudflared", "--no-autoupdate", "tunnel", "run", "--token", "${token}"]
+CMD ["/cloudflared", "--no-autoupdate", "tunnel", "run", "--token", "${token}"]
