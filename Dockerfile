@@ -13,4 +13,4 @@ RUN apk add --no-cache git build-base && \
 FROM scratch
 COPY --from=build /src/cloudflared/cloudflared /usr/local/bin/cloudflared
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-ENTRYPOINT ["cloudflared" "--no-autoupdate" "tunnel" "run" "--token" "${token}"]
+CMD cloudflared --no-autoupdate tunnel run --token ${token}
