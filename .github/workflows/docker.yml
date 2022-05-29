@@ -17,13 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: buildx-${{ github.sha }}
-          restore-keys: buildx
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -42,6 +35,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+        
+      - name: Cache Docker layers
+        continue-on-error: true
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-${{ github.sha }}
+          restore-keys: buildx
           
       - name: Build
         uses: docker/build-push-action@v3
