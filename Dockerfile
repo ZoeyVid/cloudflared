@@ -1,10 +1,10 @@
-FROM --platform=${BUILDPLATFORM} golang:alpine as build
+FROM --platform=${BUILDPLATFORM} alpine as build
 ARG CLOUDFLARED_VERSION=2022.5.1 \
     TARGETOS \
     TARGETARCH \
     GOOS=${TARGETOS} \
     GOARCH=${TARGETARCH}
-RUN apk add --no-cache git build-base && \
+RUN apk add --no-cache git build-base go && \
     go install golang.org/x/tools/gopls@latest && \
     git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src/cloudflared && \
     cd /src/cloudflared && \
