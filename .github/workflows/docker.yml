@@ -41,9 +41,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ secrets.CACHE_ID }}-buildx-${{ github.sha }}
+          key: 1-buildx-${{ github.sha }}
           restore-keys: |
-            ${{ secrets.CACHE_ID }}-buildx-
+            1-buildx-
           
       - name: Build
         uses: docker/build-push-action@v3
