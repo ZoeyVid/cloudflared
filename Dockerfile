@@ -11,7 +11,7 @@ RUN apk add --no-cache git build-base && \
     make -j "$(nproc)" cloudflared
 
 FROM scratch
-COPY --from=build /src/cloudflared/cloudflared /usr/local/bin/cloudflared
+COPY --from=build cloudflared /usr/local/bin/cloudflared
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-
-ENTRYPOINT /usr/local/bin/cloudflared --no-autoupdate tunnel run --token ${token}
+ENTRYPOINT cloudflared --no-autoupdate tunnel run --token
+CMD ${token}
