@@ -1,10 +1,12 @@
-FROM --platform=linux/amd64 golang:alpine as build
+FROM --platform=${BUILDPLATFORM} golang:alpine as build
 
 ARG CLOUDFLARED_VERSION=2022.5.1 \
     TARGETOS \
     TARGETARCH \
     GOOS=${TARGETOS} \
-    GOARCH=${TARGETARCH}
+    GOARCH=${TARGETARCH} \
+    GO111MODULE=on \
+    CGO_ENABLED=0
     
 RUN apk add --no-cache git build-base
 RUN go install golang.org/x/tools/gopls@latest
