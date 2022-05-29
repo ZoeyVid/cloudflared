@@ -38,11 +38,11 @@ jobs:
         
       - name: Cache Docker layers
         continue-on-error: true
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: buildx-${{ github.sha }}
-          restore-keys: buildx-${{ secrets.CACHE_ID }}
+          key: ${{ secrets.CACHE_ID }}-buildx-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_ID }}-buildx-
           
       - name: Build
         uses: docker/build-push-action@v3
