@@ -58,8 +58,8 @@ services:
     restart: always
     network_mode: host
     entrypoint: cloudflared
-    command: # args to add after "cloudflared --no-autoupdate"
+    command: --no-autoupdate # add args here after "--no-autoupdate" you want to run after "cloudflared --no-autoupdate"
 ```
 ```sh
-docker run --net host --restart always --name cloudflared --entrypoint cloudflared sancraftdev/cloudflared:latest --no-autoupdate # add here args "--no-autoupdate"
+docker run --net host --restart always --name cloudflared --entrypoint cloudflared sancraftdev/cloudflared:latest --no-autoupdate # add args here after "--no-autoupdate" you want to run after "cloudflared --no-autoupdate"
 ```
