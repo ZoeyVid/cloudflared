@@ -17,5 +17,5 @@ FROM scratch
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
-ENTRYPOINT ["cloudflared", "--no-autoupdate"]
+ENTRYPOINT ["sh", "-c", "cloudflared", "--no-autoupdate"]
 CMD ["tunnel", "run", "--token", "${token}"]
