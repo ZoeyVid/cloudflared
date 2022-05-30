@@ -14,7 +14,7 @@ WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
 FROM scratch
-RUN apk add --no-cache ca-certificates
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
 ENTRYPOINT ["cloudflared", "--no-autoupdate"]
