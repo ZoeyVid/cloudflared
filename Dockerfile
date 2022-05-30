@@ -13,9 +13,9 @@ RUN git clone --recursive https://github.com/cloudflare/cloudflared --branch ${C
 WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
-FROM scratch
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+FROM alpine
+RUN apk add --no-cache ca-certificates bash
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
-ENTRYPOINT ["exec", "cloudflared", "--no-autoupdate"]
+ENTRYPOINT ["bash", "-c", "cloudflared", "--no-autoupdate"]
 CMD ["tunnel", "run", "--token", "${token}"]
