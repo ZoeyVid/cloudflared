@@ -7,7 +7,7 @@ ARG CGO_ENABLED=0
 ARG TARGETARCH
 ARG TARGETOS
     
-RUN apk add --no-cache git build-base
+RUN apk add --no-cache ca-certificates git build-base
 RUN go install golang.org/x/tools/gopls@latest
 RUN git clone https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src
 WORKDIR /src
