@@ -14,7 +14,8 @@ WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
 FROM alpine
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+RUN apk add --no-cache ca-certificates
+RUN rm -rf /var/cache/apk/*
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
 ENTRYPOINT ["sh", "-c", "cloudflared", "--no-autoupdate"]
