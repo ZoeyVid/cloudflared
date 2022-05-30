@@ -15,6 +15,7 @@ RUN cd /src && \
     make -j "$(nproc)" cloudflared
 
 FROM alpine
+RUN apk add --no-cache ca-certificates
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
 ENTRYPOINT cloudflared --no-autoupdate tunnel run --token ${token}
