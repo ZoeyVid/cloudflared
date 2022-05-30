@@ -1,4 +1,4 @@
-name: Docker Cloudflared push develop to latest
+name: Docker push develop to latest
 
 on:
   workflow_dispatch:
