@@ -46,19 +46,3 @@ And generate a token under: Access ⇾ Tunnel ⇾ Create Tunnel <br>
 Now you can copy it and set the token in the command / compose file (replace your-cloudflared-tunnel-token with the token) <br>
 Then you can set a public host on https://dash.cloudflare.com: Access ⇾ Tunnel ⇾ Configure Tunnel <br>
 There you can set the address of the web source with its port (127.0.0.1:port for the network_mode: host version OR web-container-name:port for the second version) and the protocols (http / https - NO valid https certificate is required), then you can set above this the domain it should run on, and then you are done!
-
-## Run custom cloudflared commands:
-```yml
-version: "3"
-services:
-  cloudflared:
-    container_name: cloudflared
-    image: sancraftdev/cloudflared:latest
-#    image: sancraftdev/cloudflared:develop
-    restart: always
-    network_mode: host
-   command: # args to add after "cloudflared --no-autoupdate"
-```
-```sh
-docker run --net host --restart always --name cloudflared sancraftdev/cloudflared:latest custom-arg # args to add after "cloudflared --no-autoupdate"
-```
