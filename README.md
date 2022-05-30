@@ -29,10 +29,10 @@ docker run -e "token=your-cloudflare-tunnel-token" --net host --restart always -
 If you want to add it to an exiting composer stack: <br>
 
 ```yml
-  tcpm-cloudflared:
+  service-name-cloudflared:
     image: sancraftdev/cloudflared
 #    image: sancraftdev/cloudflared:develop
-    container_name: tcpm-cloudflared
+    container_name: service-name-cloudflared
     restart: always
     environment:
          - "token=your-cloudflared-tunnel-token"
