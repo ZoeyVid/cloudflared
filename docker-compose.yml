@@ -8,3 +8,4 @@ services:
     network_mode: host
     environment:
       - "token=your-cloudflared-tunnel-token"
+#   command: # command to execute after cloudflared --no-autoupdate
