@@ -57,4 +57,4 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           
       - name: show version
-        run: docker run --rm --entrypoint "cloudflared version" ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+        run: docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
