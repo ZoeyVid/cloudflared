@@ -1,8 +1,0 @@
-{
-  "extends": [
-    "config:base"
-  ],
-  "includeForks": true,
-  "automerge": true,
-  "baseBranches": ["develop", "latest"]
-}
