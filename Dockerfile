@@ -8,9 +8,9 @@ ARG TARGETARCH
 ARG TARGETOS
     
 RUN apk add --no-cache ca-certificates git build-base
-RUN go install golang.org/x/tools/gopls@latest
 RUN git clone --recursive https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src
 WORKDIR /src
+RUN go install golang.org/x/tools/gopls@latest
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
 FROM busybox:1.35.0
