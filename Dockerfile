@@ -13,7 +13,8 @@ WORKDIR /src
 RUN go install golang.org/x/tools/gopls@latest
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
-FROM busybox:1.35.0
+FROM alpine
+#FROM busybox:1.35.0
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
