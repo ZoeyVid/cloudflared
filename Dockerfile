@@ -16,7 +16,7 @@ FROM busybox:1.35.0
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 COPY --from=build /bin/sh /bin/sh
-COPY --from=src /lib/ld-musl-* /lib/
+COPY --from=build /lib/ld-musl-* /lib/
 
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
