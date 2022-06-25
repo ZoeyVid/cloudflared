@@ -24,4 +24,4 @@ jobs:
            ./regctl image copy ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
 
       - name: show version
-        run: docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest version
+        run: docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest version
