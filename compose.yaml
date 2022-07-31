@@ -9,4 +9,5 @@ services:
         environment:
         - "TZ=Europe/Berlin"
         - "token=your-cloudflared-tunnel-token"
-#        command: # command to execute after cloudflared --no-autoupdate
+#        entrypoint: cloudflared
+#        command: --no-autoupdate # command to execute after cloudflared --no-autoupdate
