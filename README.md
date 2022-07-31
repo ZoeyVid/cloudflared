@@ -31,7 +31,7 @@ If you want to add it to an exiting composer stack: <br>
 
 ```yml
     service-name-cloudflared:
-        image: sancraftdev/cloudflared
+        image: sancraftdev/cloudflared:latest
 #        image: sancraftdev/cloudflared:develop
         container_name: service-name-cloudflared
         restart: always
