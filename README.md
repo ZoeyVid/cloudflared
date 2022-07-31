@@ -61,7 +61,8 @@ services:
         network_mode: host
         environment:
         - "TZ=Europe/Berlin"
-        command: # command to execute after cloudflared --no-autoupdate
+        entrypoint: cloudflared
+        command: --no-autoupdate # command to execute after cloudflared --no-autoupdate
 
 ```
 ```sh
