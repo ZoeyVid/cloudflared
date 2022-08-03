@@ -1,4 +1,4 @@
-name: Docker CI
+name: Build Docker Image
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +30,7 @@ jobs:
           driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=-1
 
       - name: Login to DockerHub
-        if: github.event_name != 'pull_request'
+        if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -48,9 +48,9 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         with:
           path: /tmp/.buildx-cache
-          key: buildx-${{ secrets.CACHE_ID }}-${{ github.sha }}
+          key: buildx-${{ secrets.CACHE_ID }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            buildx-${{ secrets.CACHE_ID }}-
+            buildx-${{ secrets.CACHE_ID }}-${{ github.ref_name }}-
           
       - name: Build
         uses: docker/build-push-action@v3
@@ -68,7 +68,9 @@ jobs:
           
       - name: show version
         if: ${{ github.event_name != 'pull_request' }}
-        run: docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+        run: | 
+         docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
 
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
@@ -83,9 +85,9 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: true
-          tags: | 
-           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
-           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
+          tags: ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
           
       - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
