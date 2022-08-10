@@ -16,4 +16,5 @@ FROM busybox:1.35.0
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
+LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/cloudflared"
 ENTRYPOINT cloudflared --no-autoupdate tunnel run --token ${token}
