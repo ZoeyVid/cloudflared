@@ -10,4 +10,4 @@ services:
         - "TZ=Europe/Berlin"
         - "token=your-cloudflared-tunnel-token"
 #        entrypoint: cloudflared
-#        command: --no-autoupdate # command to execute after cloudflared --no-autoupdate
+#        command: --no-autoupdate --metrics localhost:9133 # command to execute after cloudflared --no-autoupdate --metrics localhost:9133 
