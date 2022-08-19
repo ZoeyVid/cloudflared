@@ -12,9 +12,12 @@ RUN git clone --recursive https://github.com/cloudflare/cloudflared --branch ${C
 WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
-FROM busybox:1.35.0
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+FROM alpine:3.16.2
+RUN apk add --no-cache ca-certificates curl
+
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/cloudflared"
-ENTRYPOINT cloudflared --no-autoupdate tunnel run --token ${token}
+ENTRYPOINT cloudflared --no-autoupdate tunnel run --metrics localhost:9133 --token ${token}
+
+HEALTHCHECK CMD curl -skI localhost:9133 || exit 1
