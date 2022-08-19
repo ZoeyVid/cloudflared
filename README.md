@@ -62,9 +62,9 @@ services:
         environment:
         - "TZ=Europe/Berlin"
         entrypoint: cloudflared
-        command: --no-autoupdate # command to execute after cloudflared --no-autoupdate
+        command: --no-autoupdate --metrics localhost:9133 # command to execute after cloudflared --no-autoupdate --metrics localhost:9133 
 
 ```
 ```sh
-docker run -e "TZ=Europe/Berlin" --net host --restart always --name cloudflared --entrypoint cloudflared sancraftdev/cloudflared:latest --no-autoupdate # add args here after "--no-autoupdate" you want to run after "cloudflared --no-autoupdate"
+docker run -e "TZ=Europe/Berlin" --net host --restart always --name cloudflared --entrypoint cloudflared sancraftdev/cloudflared:latest --no-autoupdate --metrics localhost:9133  # add args here after "--no-autoupdate" you want to run after "cloudflared --no-autoupdate --metrics localhost:9133 "
 ```
