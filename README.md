@@ -16,7 +16,7 @@ services:
         - "token=your-cloudflared-tunnel-token"
 ```
 <br>
-Or run: 
+Or run: <br>
 
 ```sh
 docker run -e "TZ=Europe/Berlin" -e "token=your-cloudflare-tunnel-token" --net host --restart always --name cloudflared sancraftdev/cloudflared:latest
