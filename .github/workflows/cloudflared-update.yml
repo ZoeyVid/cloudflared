@@ -1,0 +1,34 @@
+name: dependency-updates
+
+on:
+  schedule:
+    - cron:  "* * * * *"
+  workflow_dispatch:
+
+jobs:
+  dependency_updates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: update cloudflared version
+        run: |
+        CLOUDFLARED_VERSION="$(
+          git ls-remote --tags https://github.com/cloudflare/cloudflared.git \
+            | cut -d/ -f3 \
+            | sort -V \
+            | tail -1 \
+            | sed -E "s/\^\{\}//"
+        )"
+        sed -i "s|ARG CLOUDFLARED_VERSION=.*|ARG CLOUDFLARED_VERSION=$CLOUDFLARED_VERSION|" ./Dockerfile
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        commit-message: update cloudflared version
+        signoff: true
+        delete-branch: true
+        title: update cloudflared version
+        body: update cloudflared version
+        branch: update-cloudflared-version
