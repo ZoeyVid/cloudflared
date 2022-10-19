@@ -2,7 +2,7 @@ name: dependency-updates
 
 on:
   schedule:
-    - cron:  "* * * * *"
+    - cron:  "*/15 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -23,9 +23,11 @@ jobs:
           )"
           sed -i "s|ARG CLOUDFLARED_VERSION=.*|ARG CLOUDFLARED_VERSION=$CLOUDFLARED_VERSION|" ./Dockerfile
           
-      - name: update cloudflared version
+      - name: push
         run: |
-          git commit -m "update cloudflared version"
+          git config --global user.name "Gtihub Actions"
+          git config --global user.email "noreply@github.com"
+          git commit -m "update cloudflared version" --signoff
           git push
 
 #      - name: Create Pull Request
