@@ -22,21 +22,21 @@ jobs:
               | sed -E "s/\^\{\}//"
           )"
           sed -i "s|ARG CLOUDFLARED_VERSION=.*|ARG CLOUDFLARED_VERSION=$CLOUDFLARED_VERSION|" ./Dockerfile
-          
-      - name: push
-        run: |
-          git config --global user.name "Gtihub Actions"
-          git config --global user.email "noreply@github.com"
-          git add Dockerfile
-          git commit -m "update cloudflared version" --signoff
-          git push
 
-#      - name: Create Pull Request
-#        uses: peter-evans/create-pull-request@v4
-#        with:
-#          commit-message: update cloudflared version
-#          signoff: true
-#          delete-branch: true
-#          title: update cloudflared version
-#          body: update cloudflared version
-#          branch: update-cloudflared-version
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update cloudflared version
+          branch: update-cloudflared-version
+          title: update cloudflared version
+          body: update cloudflared version
+          
+#      - name: push
+#        run: |
+#          git config --global user.name "Gtihub Actions"
+#          git config --global user.email "noreply@github.com"
+#          git add Dockerfile
+#          git commit -m "update cloudflared version" --signoff
+#          git push
