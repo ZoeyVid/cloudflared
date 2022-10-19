@@ -27,6 +27,7 @@ jobs:
         run: |
           git config --global user.name "Gtihub Actions"
           git config --global user.email "noreply@github.com"
+          git add Dockerfile
           git commit -m "update cloudflared version" --signoff
           git push
 
