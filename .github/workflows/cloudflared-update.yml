@@ -2,7 +2,7 @@ name: dependency-updates
 
 on:
   schedule:
-    - cron:  "0 */3 * * *"
+    - cron:  "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
       - name: update cloudflared version
         run: |
           CLOUDFLARED_VERSION="$(
-          git ls-remote --tags https://github.com/cloudflare/cloudflared.git \
+          git ls-remote --tags https://github.com/cloudflare/cloudflared \
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
