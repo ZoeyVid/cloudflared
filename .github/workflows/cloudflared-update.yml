@@ -1,4 +1,4 @@
-name: dependency-updates
+name: dependency-update
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  dependency_updates:
+  cloudflared-update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
