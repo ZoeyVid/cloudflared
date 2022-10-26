@@ -31,7 +31,7 @@ jobs:
           signoff: true
           delete-branch: true
           commit-message: update cloudflared version to ${{ steps.update.outputs.version }}
-          branch: update-cloudflared-version-${{ steps.update.outputs.version }}
+          branch: update-cloudflared-version
           title: update cloudflared version to ${{ steps.update.outputs.version }}
           body: update cloudflared version to ${{ steps.update.outputs.version }}
           
