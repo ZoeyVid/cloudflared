@@ -1,4 +1,4 @@
-name: dependency-update
+name: dependency-updates
 
 on:
   schedule:
