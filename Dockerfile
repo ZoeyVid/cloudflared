@@ -18,6 +18,6 @@ RUN apk add --no-cache ca-certificates curl bind-tools
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/cloudflared"
-ENTRYPOINT cloudflared --no-autoupdate --metrics localhost:9133 tunnel run --token ${token}
+ENTRYPOINT cloudflared --no-autoupdate --metrics localhost:9173 tunnel run --token ${token}
 
-HEALTHCHECK CMD curl -skI localhost:9133 || exit 1
+HEALTHCHECK CMD curl -skI localhost:9173 || exit 1
