@@ -34,11 +34,3 @@ jobs:
           branch: update-cloudflared-version
           title: update cloudflared version to ${{ steps.update.outputs.version }}
           body: update cloudflared version to ${{ steps.update.outputs.version }}
-          
-#      - name: push
-#        run: |
-#          git config --global user.name "Gtihub Actions"
-#          git config --global user.email "noreply@github.com"
-#          git add Dockerfile
-#          git commit -m "update cloudflared version" --signoff
-#          git push
