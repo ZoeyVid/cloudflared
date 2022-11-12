@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:1.19.3-alpine3.16 as build
+FROM --platform=${BUILDPLATFORM} alpine:20221110 as build
 
 ARG CLOUDFLARED_VERSION=2022.10.3
 
@@ -7,12 +7,12 @@ ARG CGO_ENABLED=0
 ARG TARGETARCH
 ARG TARGETOS
     
-RUN apk add --no-cache ca-certificates git build-base
+RUN apk add --no-cache ca-certificates go git build-base
 RUN git clone --recursive https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src
 WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
-FROM alpine:3.16.3
+FROM alpine:20221110
 RUN apk add --no-cache ca-certificates curl bind-tools
 
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
