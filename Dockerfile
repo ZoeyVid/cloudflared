@@ -14,8 +14,8 @@ WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
 FROM alpine:20221110
-RUN apk upgrade --no-cache
-RUN apk add --no-cache ca-certificates wget tzdata curl
+RUN apk upgrade --no-cache && \
+    apk add --no-cache ca-certificates wget tzdata curl
 
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
