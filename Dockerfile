@@ -8,7 +8,7 @@ ARG TARGETARCH
 ARG TARGETOS
     
 RUN apk upgrade --no-cache
-RUN apk add --no-cache ca-certificates wget tzdata git go make
+RUN apk add --no-cache ca-certificates wget tzdata git make go
 RUN git clone --recursive https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src
 WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
