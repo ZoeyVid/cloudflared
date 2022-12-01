@@ -7,7 +7,7 @@ version: "3"
 services:
     cloudflared:
         container_name: cloudflared
-        image: zoeyvid/cloudflared:latest
+        image: zoeyvid/cloudflared
         restart: always
         network_mode: host
         environment:
@@ -18,14 +18,14 @@ services:
 Or run: <br>
 
 ```sh
-docker run -e "TZ=Europe/Berlin" -e "token=your-cloudflare-tunnel-token" --net host --restart always --name cloudflared zoeyvid/cloudflared:latest
+docker run -e "TZ=Europe/Berlin" -e "token=your-cloudflare-tunnel-token" --net host --restart always --name cloudflared zoeyvid/cloudflared
 ```
 
 If you want to add it to an exiting composer stack: <br>
 
 ```yml
     service-name-cloudflared:
-        image: zoeyvid/cloudflared:latest
+        image: zoeyvid/cloudflared
         container_name: service-name-cloudflared
         restart: always
         environment:
@@ -48,7 +48,7 @@ version: "3"
 services:
     cloudflared:
         container_name: cloudflared
-        image: zoeyvid/cloudflared:latest
+        image: zoeyvid/cloudflared
         restart: always
         network_mode: host
         environment:
@@ -58,5 +58,5 @@ services:
 
 ```
 ```sh
-docker run -e "TZ=Europe/Berlin" --net host --restart always --name cloudflared --entrypoint cloudflared zoeyvid/cloudflared:latest --no-autoupdate --metrics localhost:9133  # add args here after "--no-autoupdate" you want to run after "cloudflared --no-autoupdate --metrics localhost:9133 "
+docker run -e "TZ=Europe/Berlin" --net host --restart always --name cloudflared --entrypoint cloudflared zoeyvid/cloudflared --no-autoupdate --metrics localhost:9133  # add args here after "--no-autoupdate" you want to run after "cloudflared --no-autoupdate --metrics localhost:9133 "
 ```
