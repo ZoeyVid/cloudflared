@@ -55,13 +55,17 @@ jobs:
           push: ${{ github.ref == 'refs/heads/develop' }}
           tags: | 
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }}
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }}
           
       - name: show version
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: | 
          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+         docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }} version
          docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }} version
 
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
