@@ -64,7 +64,7 @@ jobs:
     
       - name: Build (latest)
         uses: docker/build-push-action@v3
-        if: ${{ github.ref == 'refs/heads/develop' }}
+        if: ${{ github.ref == 'refs/heads/latest' }}
         with:
           context: .
           file: ./Dockerfile
@@ -75,7 +75,7 @@ jobs:
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
     
       - name: show version
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.ref == 'refs/heads/latest' }}
         run: | 
          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
          docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
