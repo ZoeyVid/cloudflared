@@ -62,6 +62,12 @@ jobs:
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
     
+      - name: show version
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: | 
+         docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+    
       - name: Build (latest)
         uses: docker/build-push-action@v3
         if: ${{ github.ref == 'refs/heads/latest' }}
@@ -71,28 +77,18 @@ jobs:
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.ref == 'refs/heads/latest' }}
           tags: | 
+           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
+           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
     
       - name: show version
         if: ${{ github.ref == 'refs/heads/latest' }}
         run: | 
-         docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
-         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
-
-      - name: Push develop to latest
-        if: ${{ github.ref == 'refs/heads/latest' }}
-        run: |
-           curl -L https://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64 -o ./regctl
-           chmod +x ./regctl
-           ./regctl image copy ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
-           ./regctl image copy ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
-      
-      - name: show version
-        if: ${{ github.ref == 'refs/heads/latest' }}
-        run: | 
          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest version
+         docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop version
          docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest version
+         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop version
          
       - name: trigger cloudflared-dns build
         if: ${{ github.ref == 'refs/heads/latest' }}
