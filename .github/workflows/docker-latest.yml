@@ -35,3 +35,7 @@ jobs:
         run: | 
          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest version
          docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest version
+
+      - name: trigger cloudflared-dns build
+        run: | 
+         curl -X POST https://api.github.com/repos/ZoeyVid/cloudflared-dns/dispatches --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --data '{"event_type": "docker"}'
