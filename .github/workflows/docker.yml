@@ -50,18 +50,30 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ github.token }}
           
-      - name: Build
+      - name: Build (develop)
         uses: docker/build-push-action@v3
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.ref == 'refs/heads/develop' }}
         with:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.ref == 'refs/heads/develop' }}
           tags: | 
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-          
+    
+      - name: Build (latest)
+        uses: docker/build-push-action@v3
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
+          push: ${{ github.ref == 'refs/heads/develop' }}
+          tags: | 
+           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
+           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
+    
       - name: show version
         if: ${{ github.event_name != 'pull_request' }}
         run: | 
