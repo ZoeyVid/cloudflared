@@ -38,4 +38,4 @@ jobs:
 
       - name: trigger cloudflared-dns build
         run: | 
-         curl -X POST https://api.github.com/repos/ZoeyVid/cloudflared-dns/dispatches --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --data '{"event_type": "docker"}'
+         curl -X POST https://api.github.com/repos/ZoeyVid/cloudflared-dns/dispatches --header "authorization: Bearer ${{ secrets.ACTION_RUN }}" --data '{"event_type": "docker"}'
