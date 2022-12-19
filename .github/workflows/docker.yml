@@ -1,6 +1,10 @@
 name: Build Docker Image
 
 on:
+  workflow_run:
+    workflows: ["dependency-updates"]
+    types:
+      - completed
   push:
     branches:    
       - latest
