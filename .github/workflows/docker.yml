@@ -1,10 +1,6 @@
 name: Build Docker Image
 
 on:
-  workflow_run:
-    workflows: ["dependency-updates"]
-    types:
-      - completed
   push:
     branches:    
       - latest
@@ -16,6 +12,7 @@ on:
     paths:
       - Dockerfile
       - .github/workflows/docker.yml
+  repository_dispatch:
   workflow_dispatch:
 
 jobs:
