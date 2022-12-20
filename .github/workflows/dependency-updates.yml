@@ -31,4 +31,4 @@ jobs:
           git config user.name "GitHub"
           git config user.email "noreply@github.com"
           git add -A
-          git diff-index --quiet HEAD || git commit -sm "update cloudflared version to ${{ steps.update.outputs.version }}" && git push && curl -X POST https://api.github.com/repos/ZoeyVid/cloudflared/dispatches --header "authorization: Bearer ${{ secrets.ACTION_RUN }}" --data '{"event_type": "docker"}'
+          git diff-index --quiet HEAD || bash -c "git commit -sm "update cloudflared version to ${{ steps.update.outputs.version }}" && git push && curl -X POST https://api.github.com/repos/ZoeyVid/cloudflared/dispatches --header "authorization: Bearer ${{ secrets.ACTION_RUN }}" --data '{"event_type": "docker"}'"
