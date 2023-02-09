@@ -12,7 +12,7 @@ RUN git clone --recursive https://github.com/cloudflare/cloudflared --branch ${C
 WORKDIR /src
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
 
-FROM alpine:20221110
+FROM alpine:20230208
 RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates wget tzdata curl
 
