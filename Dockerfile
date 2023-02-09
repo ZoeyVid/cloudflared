@@ -6,11 +6,11 @@ ARG CGO_ENABLED=0
 ARG TARGETARCH
 ARG TARGETOS
     
-RUN apk upgrade --no-cache
-RUN apk add --no-cache ca-certificates wget tzdata git make
-RUN git clone --recursive https://github.com/cloudflare/cloudflared --branch ${CLOUDFLARED_VERSION} /src
+RUN apk upgrade --no-cache && \
+    apk add --no-cache ca-certificates wget tzdata git build-base && \
+    git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src
 WORKDIR /src
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make -j "$(nproc)" cloudflared
+RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" make -j "$nproc" cloudflared
 
 FROM alpine:20230208
 RUN apk upgrade --no-cache && \
@@ -18,5 +18,6 @@ RUN apk upgrade --no-cache && \
 
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 
-ENTRYPOINT cloudflared --no-autoupdate --metrics localhost:9173 tunnel run --token ${token}
+ENTRYPOINT ["cloudflared", "--no-autoupdate", "--metrics", "localhost:9173"]
+CMD ["tunnel", "run"]
 HEALTHCHECK CMD curl -skI localhost:9173 || exit 1
