@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} alpine:20221110 as build
+FROM --platform=${BUILDPLATFORM} alpine:3.17.1 as build
 ARG CLOUDFLARED_VERSION=2023.2.1
 
 ARG GO111MODULE=on
