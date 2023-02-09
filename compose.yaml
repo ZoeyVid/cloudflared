@@ -7,6 +7,4 @@ services:
         network_mode: host
         environment:
         - "TZ=Europe/Berlin"
-        - "token=your-cloudflared-tunnel-token"
-#        entrypoint: cloudflared
-#        command: --no-autoupdate --metrics localhost:9133 # command to execute after cloudflared --no-autoupdate --metrics localhost:9133 
+        - "TUNNEL_TOKEN=your-cloudflared-tunnel-token"
