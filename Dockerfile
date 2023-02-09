@@ -10,7 +10,7 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates wget tzdata git build-base && \
     git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src
 WORKDIR /src
-RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" make -j "$nproc" cloudflared
+RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" make -j "$(nproc)" cloudflared
 
 FROM alpine:20230208
 RUN apk upgrade --no-cache && \
