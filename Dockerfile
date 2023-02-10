@@ -12,7 +12,7 @@ RUN apk upgrade --no-cache && \
 WORKDIR /src
 RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" make -j "$(nproc)" cloudflared
 
-FROM alpine:20230208
+FROM alpine:3.17.1
 RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates wget tzdata curl
 
