@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ github.token }}
           
-      - name: Build
+      - name: Build cloudflared
         uses: docker/build-push-action@v4
         if: ${{ github.event_name != 'pull_request' }}
         with:
@@ -61,7 +61,7 @@ jobs:
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           
-      - name: Build
+      - name: Build cloudflared-dns
         uses: docker/build-push-action@v4
         if: ${{ github.event_name != 'pull_request' }}
         with:
@@ -86,7 +86,7 @@ jobs:
         id: pr
         run: echo "pr=$(echo pr-${{ github.ref_name }} | sed "s/refs\/pull\/://g" | sed "s/\/merge//g")" >> $GITHUB_OUTPUT
           
-      - name: Build (PR)
+      - name: Build cloudflared (PR)
         uses: docker/build-push-action@v4
         if: ${{ github.event_name == 'pull_request' }}
         with:
@@ -96,7 +96,7 @@ jobs:
           push: ${{ github.event_name == 'pull_request' }}
           tags: ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
           
-      - name: Build (PR)
+      - name: Build cloudflared-dns (PR)
         uses: docker/build-push-action@v4
         if: ${{ github.event_name == 'pull_request' }}
         with:
