@@ -1,8 +1,7 @@
 name: Build Docker Image
-
 on:
   push:
-    branches:    
+    branches:
       - latest
       - develop
     paths:
@@ -15,39 +14,33 @@ on:
       - Dockerfile-dns
       - .github/workflows/docker.yml
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
-
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
         with:
           driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=-1
-
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ github.token }}
-          
       - name: Build cloudflared
         uses: docker/build-push-action@v4
         if: ${{ github.event_name != 'pull_request' }}
@@ -56,10 +49,9 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.event_name != 'pull_request' }}
-          tags: | 
-           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-          
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
       - name: Build cloudflared-dns
         uses: docker/build-push-action@v4
         if: ${{ github.event_name != 'pull_request' }}
@@ -68,23 +60,20 @@ jobs:
           file: ./Dockerfile-dns
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.event_name != 'pull_request' }}
-          tags: | 
-           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
-           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
-    
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
+            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
       - name: show version
         if: ${{ github.event_name != 'pull_request' }}
-        run: | 
-         docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
-         docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }} version
-         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
-         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }} version
-         
+        run: |
+          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }} version
+          docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
+          docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }} version
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
         id: pr
         run: echo "pr=$(echo pr-${{ github.ref_name }} | sed "s/refs\/pull\/://g" | sed "s/\/merge//g")" >> $GITHUB_OUTPUT
-          
       - name: Build cloudflared (PR)
         uses: docker/build-push-action@v4
         if: ${{ github.event_name == 'pull_request' }}
@@ -94,7 +83,6 @@ jobs:
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.event_name == 'pull_request' }}
           tags: ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
-          
       - name: Build cloudflared-dns (PR)
         uses: docker/build-push-action@v4
         if: ${{ github.event_name == 'pull_request' }}
@@ -104,13 +92,9 @@ jobs:
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.event_name == 'pull_request' }}
           tags: ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ steps.pr.outputs.pr }}
-          
       - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
-        run: | 
-         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} version
-         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ steps.pr.outputs.pr }} version
-          
+        run: "docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} version\ndocker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ steps.pr.outputs.pr }} version\n \n"
       - name: add comment (PR)
         uses: mshick/add-pr-comment@v2
         if: ${{ github.event_name == 'pull_request' }}
