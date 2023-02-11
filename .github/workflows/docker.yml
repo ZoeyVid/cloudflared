@@ -76,8 +76,8 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: | 
          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
-         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
          docker run --rm --entrypoint cloudflared ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }} version
+         docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} version
          docker run --rm --entrypoint cloudflared ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }} version
          
       - name: Set PR-Number (PR)
