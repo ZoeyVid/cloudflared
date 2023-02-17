@@ -54,7 +54,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-      - name: create dns tag if latest
+      - name: create version tag if latest
         if: ${{ github.ref_name == 'latest' }}
         run: |
           docker buildx imagetools create --tag ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.version.outputs.version }} ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
@@ -72,7 +72,7 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
-      - name: create dns tag if latest
+      - name: create dns and version tag if latest
         if: ${{ github.ref_name == 'latest' }}
         run: |
           docker buildx imagetools create --tag ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}
