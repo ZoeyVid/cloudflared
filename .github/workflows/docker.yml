@@ -66,11 +66,11 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}
-            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}-${{ steps.version.outputs.version }}
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ steps.version.outputs.version }}
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ steps.version.outputs.version }}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}
-            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}-${{ steps.version.outputs.version }}
+            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:dns-${{ steps.version.outputs.version }}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-dns:${{ steps.version.outputs.version }}
       - name: create dns tag if latest
