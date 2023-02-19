@@ -58,7 +58,7 @@ version: "3"
 services:
     cloudflared:
         container_name: cloudflared-dns
-        image: zoeyvid/cloudflared-dns
+        image: zoeyvid/cloudflared:dns
         restart: always
         ports:
         - "127.0.0.1:53:53"
