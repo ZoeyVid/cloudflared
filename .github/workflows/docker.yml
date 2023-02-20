@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Read .version file
+      - name: Read version
         id: version
         run: echo "version=$(cat Dockerfile | grep -wE "ARG CLOUDFLARED_VERSION=*" | sed "s|ARG CLOUDFLARED_VERSION=||g")" >> $GITHUB_OUTPUT
       - name: Set up QEMU
