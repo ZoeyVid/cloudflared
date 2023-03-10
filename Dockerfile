@@ -11,7 +11,6 @@ RUN apk upgrade --no-cache && \
     git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src
 WORKDIR /src
 RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" make -j "$(nproc)" cloudflared
-RUN strip -s /src/cloudflared
 
 FROM alpine:3.17.2
 RUN apk upgrade --no-cache && \
