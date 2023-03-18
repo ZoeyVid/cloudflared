@@ -1,16 +1,12 @@
 FROM --platform=${BUILDPLATFORM} golang:1.19.5-alpine3.17 as build
 ARG CLOUDFLARED_VERSION=2023.3.1
 
-ARG GO111MODULE=on
-ARG CGO_ENABLED=0
-ARG TARGETARCH
-ARG TARGETOS
-    
 RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates tzdata git build-base && \
     git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src
 WORKDIR /src
-RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" make -j "$(nproc)" cloudflared
+ARG TARGETARCH
+RUN GOARCH="$TARGETARCH" GO111MODULE=on CGO_ENABLED=0 make -j "$(nproc)" cloudflared
 
 FROM alpine:3.17.2
 RUN apk upgrade --no-cache && \
