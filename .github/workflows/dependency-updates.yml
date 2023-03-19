@@ -20,7 +20,7 @@ jobs:
               | tail -1 \
               | sed -E "s/\^\{\}//"
           )"
-          sed -i "s|ARG CLOUDFLARED_VERSION=.*|ARG CLOUDFLARED_VERSION=$CLOUDFLARED_VERSION|" ./Dockerfile
+          sed -i "s|ARG CLOUDFLARED_VERSION=.*|ARG CLOUDFLARED_VERSION=$CLOUDFLARED_VERSION \\\|" ./Dockerfile
           echo "version=$CLOUDFLARED_VERSION" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
