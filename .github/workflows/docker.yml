@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Read version
         id: version
-        run: echo "version=$(cat Dockerfile | grep -wE "ARG CLOUDFLARED_VERSION=*" | sed "s|ARG CLOUDFLARED_VERSION=||g")" >> $GITHUB_OUTPUT
+        run: echo "version=$(cat Dockerfile | grep -wE "ARG CLOUDFLARED_VERSION=*" | sed "s|ARG CLOUDFLARED_VERSION=||g" | sed "s| \\\||g"))" >> $GITHUB_OUTPUT
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
