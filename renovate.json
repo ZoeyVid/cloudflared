@@ -8,6 +8,6 @@
   "branchPrefix": "renovate-deps-update-",
   "rangeStrategy": "pin",
   "digest": {
-    "enabled": false
+    "enabled": true
   }
 }
