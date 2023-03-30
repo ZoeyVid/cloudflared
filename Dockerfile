@@ -7,7 +7,7 @@ RUN apk add --no-cache ca-certificates git build-base && \
     cd /src && \
     GOARCH="$TARGETARCH" GO111MODULE=on CGO_ENABLED=0 make -j "$(nproc)" cloudflared
 
-FROM alpine:3.17.2
+FROM alpine:3.17.3
 RUN apk add --no-cache ca-certificates tzdata curl
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 ENTRYPOINT ["cloudflared", "--no-autoupdate", "--metrics", "localhost:9173"]
