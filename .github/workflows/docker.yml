@@ -121,8 +121,8 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} version
-          docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-dns version"
-          docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:${{ steps.pr.outputs.pr }} version"
+          docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-dns version
+          docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:${{ steps.pr.outputs.pr }} version
       - name: add comment (PR)
         uses: mshick/add-pr-comment@v2
         if: ${{ github.event_name == 'pull_request' }}
