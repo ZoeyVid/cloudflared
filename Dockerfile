@@ -8,8 +8,8 @@ RUN apk add --no-cache ca-certificates git build-base && \
     GOARCH="$TARGETARCH" GO111MODULE=on CGO_ENABLED=0 make -j "$(nproc)" cloudflared
 
 FROM alpine:3.18.2
-RUN apk add --no-cache ca-certificates tzdata curl
+RUN apk add --no-cache ca-certificates tzdata tini curl
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
-ENTRYPOINT ["cloudflared", "--no-autoupdate", "--metrics", "localhost:9173"]
+ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9173"]
 CMD ["tunnel", "run"]
 HEALTHCHECK CMD curl -sI http://localhost:9173 -o /dev/null  || exit 1
