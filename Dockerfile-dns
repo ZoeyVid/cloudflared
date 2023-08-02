@@ -1,5 +1,5 @@
 FROM zoeyvid/cloudflared
-RUN apk add --no-cache ca-certificates tzdata bind-tools
+RUN apk add --no-cache ca-certificates tzdata tini bind-tools
 
 ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9172", "proxy-dns", "--address", "0.0.0.0"]
 CMD ["--upstream", "https://dns.adguard-dns.com/dns-query"]
