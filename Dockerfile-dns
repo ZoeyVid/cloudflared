@@ -1,7 +1,7 @@
 FROM zoeyvid/cloudflared
 RUN apk add --no-cache ca-certificates tzdata bind-tools
 
-ENTRYPOINT ["cloudflared", "--no-autoupdate", "--metrics", "localhost:9172", "proxy-dns", "--address", "0.0.0.0"]
+ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9172", "proxy-dns", "--address", "0.0.0.0"]
 CMD ["--upstream", "https://dns.adguard-dns.com/dns-query"]
 ENV dns=94.140.14.14
 HEALTHCHECK CMD ([ "$(dig example.com IN A +short @127.0.0.1 | head -n 1)" = "$(dig example.com IN A +short +tls @"$dns" | head -n 1)" ] && curl -sI http://localhost:9172 -o /dev/null) || exit 1
