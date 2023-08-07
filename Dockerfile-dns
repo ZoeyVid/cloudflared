@@ -3,5 +3,5 @@ RUN apk add --no-cache ca-certificates tzdata tini bind-tools
 
 ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9172", "proxy-dns", "--address", "0.0.0.0"]
 CMD ["--upstream", "https://dns.adguard-dns.com/dns-query"]
-ENV dns=94.140.14.14
-HEALTHCHECK CMD ([ "$(dig example.com IN A +short @127.0.0.1 | head -n 1)" = "$(dig example.com IN A +short +tls @"$dns" | head -n 1)" ] && curl -sI http://localhost:9172 -o /dev/null) || exit 1
+HEALTHCHECK CMD ([ "$(dig example.org IN A +short @127.0.0.1 | grep '^[0-9.]\+$' | sort | head -n1)" = "$(dig example.org IN A +short +https +tls-ca=/etc/ssl/certs/ca-certificates.crt @1.1.1.1 | grep '^[0-9.]\+$' | sort | head -n1)" ] && curl -sI http://localhost:9172 -o /dev/null) || exit 1
+
