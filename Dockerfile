@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:1.20.11-alpine3.18 as build
+FROM --platform=${BUILDPLATFORM} golang:1.20.12-alpine3.18 as build
 ARG CLOUDFLARED_VERSION=2023.10.0 \
     TARGETARCH
 
