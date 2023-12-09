@@ -6,12 +6,12 @@ on:
       - develop
     paths:
       - Dockerfile
-      - Dockerfile-dns
+      - dns.Dockerfile
       - .github/workflows/docker.yml
   pull_request:
     paths:
       - Dockerfile
-      - Dockerfile-dns
+      - dns.Dockerfile
       - .github/workflows/docker.yml
   workflow_dispatch:
 jobs:
@@ -67,7 +67,7 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         with:
           context: .
-          file: ./Dockerfile-dns
+          file: ./dns.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
@@ -111,7 +111,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         with:
           context: .
-          file: ./Dockerfile-dns
+          file: ./dns.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4
           push: ${{ github.event_name == 'pull_request' }}
           tags: |
