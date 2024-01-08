@@ -1,5 +1,5 @@
 FROM --platform=${BUILDPLATFORM} golang:1.20.12-alpine3.19 as build
-ARG CLOUDFLARED_VERSION=2023.10.0 \
+ARG CLOUDFLARED_VERSION=2024.1.0 \
     TARGETARCH
 
 RUN apk add --no-cache ca-certificates git build-base && \
