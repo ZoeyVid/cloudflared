@@ -1,5 +1,6 @@
 FROM --platform=${BUILDPLATFORM} golang:1.21.6-alpine3.19 as build
 ARG CLOUDFLARED_VERSION=2024.1.2 \
+    GOFLAGS="-ldflags=-s -w" \
     CGO_ENABLED=0 \
     TARGETARCH \
     TARGETOS
@@ -8,7 +9,6 @@ RUN apk add --no-cache ca-certificates git build-base && \
     git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
     cd /src && \
     GOARCH="${TARGETARCH}" GOOS="${TARGETOS}" make -j "$(nproc)" cloudflared && \
-    strip -s /src/cloudflared && \
     file /src/cloudflared
 
 FROM alpine:3.19.0
