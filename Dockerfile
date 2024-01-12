@@ -8,7 +8,7 @@ ARG CLOUDFLARED_VERSION=2024.1.2 \
 RUN apk add --no-cache ca-certificates git build-base && \
     git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
     cd /src && \
-    GOOS="$TARGETOS" GOARCH="$TARGETARCH" make -j "$(nproc)" cloudflared && \
+    GOOS=$TARGETOS GOARCH=$TARGETARCH make -j "$(nproc)" cloudflared && \
     file /src/cloudflared
 
 FROM alpine:3.19.0
