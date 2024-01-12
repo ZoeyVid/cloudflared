@@ -1,6 +1,6 @@
 FROM --platform=${BUILDPLATFORM} golang:1.21.6-alpine3.19 as build
 ARG CLOUDFLARED_VERSION=2024.1.2 \
-    GOFLAGS="-ldflags=-s -w" \
+#    GOFLAGS="-ldflags=-s -w" \
     CGO_ENABLED=0 \
     TARGETARCH \
     TARGETOS
