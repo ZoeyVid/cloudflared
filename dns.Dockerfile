@@ -1,6 +1,6 @@
 FROM zoeyvid/cloudflared as cloudflared
 
-FROM alpine:3.19.0
+FROM alpine:3.19.1
 RUN apk add --no-cache ca-certificates tzdata tini curl bind-tools
 COPY --from=cloudflared /usr/local/bin/cloudflared /usr/local/bin/cloudflared
 ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9172", "proxy-dns", "--address", "0.0.0.0"]
