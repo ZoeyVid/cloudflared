@@ -10,7 +10,7 @@ RUN apk add --no-cache ca-certificates git build-base && \
     GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s -w" && \
     file /src/cloudflared
 
-FROM alpine:3.19.0
+FROM alpine:3.19.1
 RUN apk add --no-cache ca-certificates tzdata tini curl
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9173"]
