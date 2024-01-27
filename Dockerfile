@@ -3,12 +3,15 @@ ARG CLOUDFLARED_VERSION=2024.1.5
 
 RUN apk add --no-cache ca-certificates git build-base bash && \
     git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
-    /src/.teamcity/install-cloudflare-go.sh
+    /src/.teamcity/install-cloudflare-go.sh && \
+    go version
 
-ARG CGO_ENABLED=0 \
+ARG PATH="/tmp/go/bin:$PATH" \
+    CGO_ENABLED=0 \
     TARGETARCH \
     TARGETOS
 RUN cd /src && \
+    go version && \
     GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s -w" && \
     file /src/cloudflared
 
