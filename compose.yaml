@@ -1,10 +1,9 @@
-version: "3"
 services:
-    cloudflared:
-        container_name: cloudflared
-        image: zoeyvid/cloudflared
-        restart: always
-        network_mode: host
-        environment:
-        - "TZ=Europe/Berlin"
-        - "TUNNEL_TOKEN=your-cloudflared-tunnel-token"
+  cloudflared:
+    container_name: cloudflared
+    image: zoeyvid/cloudflared
+    restart: always
+    network_mode: host
+    environment:
+      - "TZ=Europe/Berlin"
+      - "TUNNEL_TOKEN=your-cloudflared-tunnel-token"
