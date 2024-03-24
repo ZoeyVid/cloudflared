@@ -1,7 +1,8 @@
 FROM zoeyvid/cloudflared as cloudflared
 
 FROM alpine:3.19.1
-RUN apk add --no-cache ca-certificates tzdata tini curl bind-tools
+RUN apk upgrade --no-cache -a && \
+    apk add --no-cache ca-certificates tzdata tini curl bind-tools
 COPY --from=cloudflared /usr/local/bin/cloudflared /usr/local/bin/cloudflared
 USER nobody
 ENV NO_AUTOUPDATE=true
