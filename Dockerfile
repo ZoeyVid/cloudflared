@@ -18,6 +18,7 @@ RUN cd /src && \
 FROM alpine:3.19.1
 RUN apk add --no-cache ca-certificates tzdata tini curl
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
+USER nobody
 ENV NO_AUTOUPDATE=true
 ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9173"]
 CMD ["tunnel", "run"]
