@@ -1,6 +1,8 @@
 name: dependency-updates
 on:
   push:
+    branches:
+      - develop
   schedule:
     - cron: "0 */6 * * *"
   workflow_dispatch:
@@ -18,7 +20,7 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG CLOUDFLARED_VERSION=.*|ARG CLOUDFLARED_VERSION=$CLOUDFLARED_VERSION|" ./Dockerfile
           echo "version=$CLOUDFLARED_VERSION" >> $GITHUB_OUTPUT
