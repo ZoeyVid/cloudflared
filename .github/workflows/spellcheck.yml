@@ -15,4 +15,4 @@ jobs:
         with:
           check_filenames: true
           check_hidden: true
-          skip: .gitignore
+          skip: .git,.gitignore
