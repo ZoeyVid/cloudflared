@@ -1,4 +1,4 @@
-FROM zoeyvid/cloudflared as cloudflared
+FROM zoeyvid/cloudflared:latest as cloudflared
 
 FROM alpine:3.19.1
 RUN apk upgrade --no-cache -a && \
