@@ -1,5 +1,7 @@
 # Cloudflared
 
+This docker image includes a multiarch statically linked stripped version of cloudflared
+
 If you want to connect to services outside Docker over localhost and inside docker, but exposed to localhost: <br>
 
 ```yml
