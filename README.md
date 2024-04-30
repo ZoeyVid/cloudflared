@@ -59,6 +59,7 @@ services:
     container_name: cloudflared-dns
     image: zoeyvid/cloudflared:dns
     restart: always
+    network_mode: bridge
     ports:
       - "127.0.0.1:53:53"
       - "127.0.0.1:53:53/udp"
