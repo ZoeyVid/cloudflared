@@ -1,9 +1,10 @@
 FROM zoeyvid/cloudflared:latest as cloudflared
 
 FROM alpine:3.20.0
+COPY --from=cloudflared           /usr/local/bin/cloudflared /usr/local/bin/cloudflared
+COPY --from=zoeyvid/curl-quic:388 /usr/local/bin/curl        /usr/local/bin/curl
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates tzdata tini curl bind-tools
-COPY --from=cloudflared /usr/local/bin/cloudflared /usr/local/bin/cloudflared
+    apk add --no-cache ca-certificates tzdata tini bind-tools
 USER nobody
 ENV NO_AUTOUPDATE=true
 ENTRYPOINT ["tini", "--", "cloudflared", "--no-autoupdate", "--metrics", "localhost:9172", "proxy-dns", "--address", "0.0.0.0"]
