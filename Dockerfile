@@ -18,8 +18,9 @@ RUN cd /src && \
     file /src/cloudflared
 
 FROM alpine:3.19.1
+COPY --from=zoeyvid/curl-quic:388 /usr/local/bin/curl /usr/local/bin/curl
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates tzdata tini curl
+    apk add --no-cache ca-certificates tzdata tini
 COPY --from=build /src/cloudflared /usr/local/bin/cloudflared
 USER nobody
 ENV NO_AUTOUPDATE=true
