@@ -17,7 +17,7 @@ RUN cd /src && \
     GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s -w" && \
     file /src/cloudflared
 
-FROM alpine:3.19.1
+FROM alpine:3.20.0
 COPY --from=zoeyvid/curl-quic:388 /usr/local/bin/curl /usr/local/bin/curl
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini
