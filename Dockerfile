@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM --platform=${BUILDPLATFORM} golang:1.22.3-alpine3.19 as build
+FROM --platform=${BUILDPLATFORM} golang:1.22.3-alpine3.20 as build
 ARG CLOUDFLARED_VERSION=2024.5.0
 
 RUN apk upgrade --no-cache -a && \
@@ -17,7 +17,7 @@ RUN cd /src && \
     GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s -w" && \
     file /src/cloudflared
 
-FROM alpine:3.19.1
+FROM alpine:3.20.0
 COPY --from=zoeyvid/curl-quic:388 /usr/local/bin/curl /usr/local/bin/curl
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini
