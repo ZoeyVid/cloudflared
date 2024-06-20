@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM --platform=${BUILDPLATFORM} golang:1.22.4-alpine3.20 as build
+FROM --platform=${BUILDPLATFORM} golang:1.22.4-alpine3.20 AS build
 ARG CLOUDFLARED_VERSION=2024.6.1
 
 RUN apk upgrade --no-cache -a && \
