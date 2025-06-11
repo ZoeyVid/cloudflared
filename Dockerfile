@@ -2,18 +2,19 @@
 FROM --platform=${BUILDPLATFORM} golang:1.24.4-alpine3.21 AS build
 ARG CLOUDFLARED_VERSION=2025.6.0
 
+ARG CGO_ENABLED=0 \
+    TARGETARCH \
+    TARGETOS
+# \
+#    PATH="/tmp/go/bin:$PATH" 
+# && \
+#    /src/.teamcity/install-cloudflare-go.sh && \
+#    go version
+
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base bash && \
     git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
-    /src/.teamcity/install-cloudflare-go.sh && \
-    go version
-
-ARG PATH="/tmp/go/bin:$PATH" \
-    CGO_ENABLED=0 \
-    TARGETARCH \
-    TARGETOS
-RUN cd /src && \
-    go version && \
+    cd /src && \
     GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s -w" && \
     file /src/cloudflared
 
