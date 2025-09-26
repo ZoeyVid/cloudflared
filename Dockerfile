@@ -13,7 +13,7 @@ ARG CGO_ENABLED=0 \
 
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base bash && \
-    git clone --recursive https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
+    git clone --depth 1 https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
     cd /src && \
     GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s -w" && \
     file /src/cloudflared
