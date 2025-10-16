@@ -15,7 +15,7 @@ RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base bash && \
     git clone --depth 1 https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
     cd /src && \
-    GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s -w" && \
+    GOARCH="$TARGETARCH" GOOS="$TARGETOS" make -j "$(nproc)" cloudflared LINK_FLAGS="-s" && \
     file /src/cloudflared
 
 FROM alpine:3.22.2
