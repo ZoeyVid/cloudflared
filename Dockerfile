@@ -2,15 +2,11 @@
 FROM --platform=${BUILDPLATFORM} golang:1.25.3-alpine3.21 AS build
 ARG CLOUDFLARED_VERSION=2025.10.0
 
-ARG CGO_ENABLED=0 \
-    TARGETARCH \
-    TARGETOS
-# \
-#    PATH="/tmp/go/bin:$PATH" 
-# && \
-#    /src/.teamcity/install-cloudflare-go.sh && \
-#    go version
+ARG TARGETARCH
+ARG TARGETOS
 
+ARG GOFLAGS="-buildmode=pie"
+ARG CGO_ENABLED=0
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base bash && \
     git clone --depth 1 https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
