@@ -5,6 +5,7 @@ ARG CLOUDFLARED_VERSION=2025.10.0
 ARG TARGETARCH
 ARG TARGETOS
 
+ARG CGO_ENABLED=1
 ARG GOFLAGS="-buildmode=pie"
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base bash && \
