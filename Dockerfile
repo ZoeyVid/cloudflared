@@ -6,7 +6,6 @@ ARG TARGETARCH
 ARG TARGETOS
 
 ARG GOFLAGS="-buildmode=pie"
-ARG CGO_ENABLED=0
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base bash && \
     git clone --depth 1 https://github.com/cloudflare/cloudflared --branch "$CLOUDFLARED_VERSION" /src && \
