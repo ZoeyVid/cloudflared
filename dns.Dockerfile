@@ -1,4 +1,4 @@
-FROM alpine:3.22.2
+FROM alpine:3.23.0
 COPY --from=zoeyvid/cloudflared:latest /usr/local/bin/cloudflared /usr/local/bin/cloudflared
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini curl bind-tools
