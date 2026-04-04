@@ -23,16 +23,8 @@ jobs:
       - name: Push develop to latest
         run: |
           docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:latest ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:dns ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}
-          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:latest ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
           docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:latest ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:dns ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:dns-${{ github.ref_name }}
-          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:latest ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:${{ github.ref_name }}
       - name: show version
         run: |
           docker run --rm --entrypoint cloudflared ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:latest version
-          docker run --rm --entrypoint cloudflared ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:dns version
-          docker run --rm --entrypoint cloudflared ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:latest version
           docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:latest version
-          docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:dns version
-          docker run --rm --entrypoint cloudflared ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}-dns:latest version
