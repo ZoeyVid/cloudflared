@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM --platform=${BUILDPLATFORM} golang:1.26.1-alpine3.23 AS build
+FROM --platform=${BUILDPLATFORM} golang:1.26.2-alpine3.23 AS build
 ARG CLOUDFLARED_VERSION=2026.3.0
 
 ARG TARGETARCH
