@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:labs
 FROM --platform=${BUILDPLATFORM} golang:1.26.4-alpine3.23 AS build
-ARG CLOUDFLARED_VERSION=2026.5.2
+ARG CLOUDFLARED_VERSION=2026.6.0
 
 ARG TARGETARCH
 ARG TARGETOS
