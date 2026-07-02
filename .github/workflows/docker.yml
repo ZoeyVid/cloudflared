@@ -45,7 +45,7 @@ jobs:
           username: ${{ steps.un.outputs.un }}
           password: ${{ github.token }}
       - name: Build cloudflared
-        uses: docker/build-push-action@v7.2.0
+        uses: docker/build-push-action@v7.3.0
         if: ${{ github.event_name != 'pull_request' }}
         with:
           context: .
@@ -70,7 +70,7 @@ jobs:
         id: pr
         run: echo "pr=$(echo pr-${{ github.ref_name }} | sed "s|refs/pull/:||g" | sed "s|/merge||g")" >> $GITHUB_OUTPUT
       - name: Build cloudflared (PR)
-        uses: docker/build-push-action@v7.2.0
+        uses: docker/build-push-action@v7.3.0
         if: ${{ github.event_name == 'pull_request' }}
         with:
           context: .
