@@ -22,7 +22,7 @@ jobs:
         id: version
         run: echo "version=$(cat Dockerfile | grep -wE "ARG CLOUDFLARED_VERSION=*" | sed "s|ARG CLOUDFLARED_VERSION=||g" | sed "s| \\\||g")" >> $GITHUB_OUTPUT
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4.1.0
+        uses: docker/setup-qemu-action@v4.2.0
         with:
           platforms: all
       - name: Set up Docker Buildx
